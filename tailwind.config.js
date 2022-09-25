@@ -367,6 +367,7 @@ module.exports = {
     },
     fontFamily: {
       sans: [
+        "Inter",
         "ui-sans-serif",
         "system-ui",
         "-apple-system",
@@ -563,6 +564,7 @@ module.exports = {
       "5/6": "83.333333%",
       full: "100%",
       screen: "100vh",
+      "mid-screen": "50vh",
       min: "min-content",
       max: "max-content",
       fit: "fit-content",
