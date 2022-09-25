@@ -10,6 +10,14 @@ export class QzBestScoreComponent {
   @Input() totalQuestions: number = 10;
   @Input() bestScore: number = 9;
 
+  /**
+   * Generate best score string.
+   *
+   * This validate if the bestScore is less than totalQuestion
+   *
+   * @return {*}  {string}
+   * @memberof QzBestScoreComponent
+   */
   generateBestScore(): string {
     return this.bestScore > this.totalQuestions
       ? `${this.totalQuestions}/${this.totalQuestions}`
