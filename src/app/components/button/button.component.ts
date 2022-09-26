@@ -10,7 +10,9 @@ export class QzButtonComponent {
 
   @HostBinding('class')
   get classes(): string {
-    return `px-5 py-2 rounded ${this.generateBackgroundColor(this.btnType)}`;
+    return `px-5 py-2 rounded cursor-pointer ${this.generateBackgroundColor(
+      this.btnType
+    )} disabled:opacity-40 disabled:bg-gray-400 disabled:text-gray-900 disabled:cursor-not-allowed`;
   }
 
   /**
