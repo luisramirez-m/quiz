@@ -23,11 +23,14 @@ describe('ButtonComponent', () => {
   });
 
   describe('classes()', () => {
+    const classBaseButtonBase =
+      'px-5 py-2 rounded cursor-pointer disabled:opacity-40 disabled:bg-gray-400 disabled:text-gray-900 disabled:cursor-not-allowed';
+
     it('should get class of primary', () => {
       component.btnType = 'primary';
 
       expect(component.classes).toEqual(
-        `px-5 py-2 rounded ${component.generateBackgroundColor(
+        `${classBaseButtonBase} ${component.generateBackgroundColor(
           component.btnType
         )}`
       );
@@ -37,7 +40,7 @@ describe('ButtonComponent', () => {
       component.btnType = 'secondary';
 
       expect(component.classes).toEqual(
-        `px-5 py-2 rounded ${component.generateBackgroundColor(
+        `${classBaseButtonBase} ${component.generateBackgroundColor(
           component.btnType
         )}`
       );
