@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { IQuestion } from '../quiz';
-import { QuizService } from '../quiz.service';
+import { GetQuizQuestions } from '../store/quiz.actions';
+import { QuizState } from '../store/quiz.state';
 
 @Component({
   selector: 'app-home',
@@ -11,20 +14,17 @@ export class QuizHomeComponent implements OnInit {
   totalQuestions: number = 0;
   isLoading: boolean = true;
 
-  constructor(private quizService: QuizService) {}
+  // Select quizQuestions from store
+  @Select(QuizState.quizQuestions) quizQuestions$!: Observable<IQuestion[]>;
+
+  constructor(private store: Store, private actions$: Actions) {}
 
   ngOnInit(): void {
-    this.getAllQuestions();
-  }
+    // Get all quiz questions from store
+    this.store.dispatch(new GetQuizQuestions());
 
-  /**
-   * Get all questions from API, to assign isLoading and totalQuestions.
-   *
-   * @memberof QuizHomeComponent
-   */
-  getAllQuestions(): void {
-    this.quizService.getQuizQuestions().subscribe((questions: IQuestion[]) => {
-      this.totalQuestions = questions.length;
+    // When action is Successful change state of isLoading
+    this.actions$.pipe(ofActionSuccessful(GetQuizQuestions)).subscribe(() => {
       // Hack: test for load big quiz. Only for show loading and disabled button
       setTimeout(() => {
         this.isLoading = false;
