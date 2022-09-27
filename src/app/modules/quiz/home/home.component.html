@@ -1,4 +1,4 @@
-<div class="h-screen items">
+<div>
   <div
     class="h-mid-screen flex justify-center items-center bg-blue-500 home-logo"
   >
@@ -23,9 +23,11 @@
     <div *ngIf="isLoading" class="absolute top-40">
       <qz-spinner></qz-spinner>
     </div>
-    <qz-best-score
-      [bestScore]="2"
-      [totalQuestions]="totalQuestions"
-    ></qz-best-score>
+    <ng-container *ngIf="quizQuestions$ | async as quizQuestions">
+      <qz-best-score
+        [bestScore]="2"
+        [totalQuestions]="quizQuestions.length"
+      ></qz-best-score>
+    </ng-container>
   </div>
 </div>
