@@ -1,7 +1,7 @@
 export interface IQuestion {
   label: string;
   answerType: string;
-  answer: string;
+  answer?: string;
   choices?: string[];
   answers?: string[];
 }

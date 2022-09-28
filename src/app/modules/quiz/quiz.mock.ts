@@ -1,4 +1,6 @@
-export const quizQuestionsMock = [
+import { IQuestion } from './quiz';
+
+export const quizQuestionsMock: IQuestion[] = [
   {
     label: "Quel fleuve traverse l'Égypte ?",
     answerType: 'choice',
