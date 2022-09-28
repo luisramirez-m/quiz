@@ -52,4 +52,17 @@ describe('QuestionTimerComponent', () => {
       expect(component.timeLeft).toEqual(120);
     });
   });
+
+  describe('stopTimer()', () => {
+    it('should be stop timer ', () => {
+      // Generate timer
+      component.generateTimer();
+      setTimeout(() => {
+        expect(component.timeLeft).toBeLessThan(120);
+      }, 1500);
+
+      component.stopTimer();
+      expect(component.timeLeft).toEqual(0);
+    });
+  });
 });

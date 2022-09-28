@@ -1,0 +1,245 @@
+<div class="question">
+  <ng-container *ngIf="quizQuestions$ | async as quizQuestions">
+    <div
+      class="question-header px-6 py-4 flex items-center flex justify-between"
+    >
+      <qz-question-counter
+        [currentQuestion]="currentQuestion + 1"
+        [totalQuestions]="quizQuestions.length"
+      ></qz-question-counter>
+      <qz-question-timer
+        [isMinutesFormat]="true"
+        [limitSeconds]="120"
+        (emitEndTimer)="onSaveQuestion()"
+      ></qz-question-timer>
+    </div>
+  </ng-container>
+
+  <div class="container mx-auto">
+    <ng-container *ngIf="showResult; else showQuestion">
+      <div class="grid grid-cols-2 gap-3 h-96 flex items-center">
+        <div class="text-center">
+          <div class="mb-4">
+            <div class="text-2xl">🎉</div>
+            <h3 class="font-semibold text-2xl text-qz-blue-900">
+              Le Quiz est terminé !
+            </h3>
+          </div>
+          <div class="mb-4 text-qz-acent-500">
+            <div class="font-bold text-9xl">
+              {{ countGoodResponse() }}/{{ maxQuestions }}
+            </div>
+            <div class="font-bold text-4xl">réponses justes</div>
+          </div>
+          <div>
+            Meilleur score : 4/5
+            <span class="bg-green-100 text-green-500 px-3 py-2 rounded-lg ml-2"
+              >NEW!</span
+            >
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-xl text-qz-blue-900 mb-4">
+            Détail des résultats :
+          </h3>
+          <ng-container
+            *ngFor="
+              let question of responsesArray.controls as any;
+              let index = index
+            "
+          >
+            <div class="flex my-3">
+              <div class="text-sm">{{ question.value.label }}</div>
+              <ng-container
+                *ngIf="
+                  question.value.answerType === 'multiple-choice';
+                  else elseNotMultipleResult
+                "
+              >
+                <div
+                  *ngIf="
+                    checkIsGoodResponse(
+                      question.value.answers,
+                      question.value.response,
+                      question.value.answerType
+                    )
+                  "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-green-500"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+
+                <div
+                  *ngIf="
+                    !checkIsGoodResponse(
+                      question.value.answers,
+                      question.value.response,
+                      question.value.answerType
+                    )
+                  "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-red-500"
+                  >
+                    <path d="M18 6 6 18M6 6l12 12" />
+                  </svg>
+                </div>
+              </ng-container>
+
+              <ng-template #elseNotMultipleResult>
+                <div
+                  *ngIf="
+                    checkIsGoodResponse(
+                      question.value.answer,
+                      question.value.response,
+                      question.value.answerType
+                    )
+                  "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-green-500"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+
+                <div
+                  *ngIf="
+                    !checkIsGoodResponse(
+                      question.value.answer,
+                      question.value.response,
+                      question.value.answerType
+                    )
+                  "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-red-500"
+                  >
+                    <path d="M18 6 6 18M6 6l12 12" />
+                  </svg>
+                </div>
+              </ng-template>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #showQuestion>
+      <form [formGroup]="responsesForm" novalidate>
+        <ng-container
+          *ngFor="
+            let question of responsesArray.controls as any;
+            let index = index
+          "
+        >
+          <div
+            class="py-20"
+            [formGroup]="question"
+            *ngIf="currentQuestion === index"
+          >
+            <h2 class="font-semibold text-2xl text-qz-blue-900 py-20">
+              {{ question.value.label }}
+            </h2>
+
+            <ng-container *ngIf="question.value.answerType === 'choice'">
+              <div class="grid grid-cols-2 gap-4">
+                <label
+                  *ngFor="let choice of question.value.choices"
+                  class="bg-blue-100 p-4 rounded-lg flex justify-between cursor-pointer"
+                >
+                  <span>{{ choice }}</span>
+                  <input
+                    type="radio"
+                    [value]="choice"
+                    formControlName="response"
+                  />
+                </label>
+              </div>
+            </ng-container>
+
+            <ng-container
+              *ngIf="question.value.answerType === 'multiple-choice'"
+            >
+              <div class="grid grid-cols-2 gap-4">
+                <label
+                  *ngFor="let choice of question.value.choices"
+                  class="bg-blue-100 p-4 rounded-lg flex justify-between cursor-pointer"
+                >
+                  <span>{{ choice }}</span>
+                  <input
+                    type="checkbox"
+                    [value]="choice"
+                    name="choice"
+                    (change)="onCheckboxChange($event, index)"
+                  />
+                </label>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="question.value.answerType === 'text'">
+              <label class="form-label inline-block mb-2 text-slate-700 text-lg"
+                >Votre réponse</label
+              >
+              <input
+                formControlName="response"
+                type="text"
+                class="form-control block w-full px-4 py-2 text-xl font-normal text-slate-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-slate-700 focus:bg-white focus:border-qz-blue-600 focus:outline-none"
+              />
+            </ng-container>
+          </div>
+        </ng-container>
+        <div class="flex justify-center">
+          <button
+            qz-button
+            btnType="primary"
+            type="button"
+            (click)="onSaveQuestion()"
+          >
+            Valider
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+</div>
