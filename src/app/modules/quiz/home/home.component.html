@@ -1,7 +1,5 @@
 <div>
-  <div
-    class="h-mid-screen flex justify-center items-center bg-blue-500 home-logo"
-  >
+  <div class="h-mid-screen flex justify-center items-center home-logo">
     <div class="">
       <img src="/assets/images/angular-logo.png" alt="image" />
     </div>
@@ -13,7 +11,12 @@
       <div class="text-center">
         <h4 *ngIf="!isLoading" class="text-sm font-semibold">5 questions</h4>
         <h2 class="text-3xl font-semibold my-4">Mon test technique</h2>
-        <button qz-button btnType="primary" [disabled]="isLoading">
+        <button
+          qz-button
+          btnType="primary"
+          [disabled]="isLoading"
+          (click)="goToQuestions()"
+        >
           Démarrer
         </button>
       </div>

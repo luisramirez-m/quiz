@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IQuestion } from '../quiz';
@@ -17,7 +18,11 @@ export class QuizHomeComponent implements OnInit {
   // Select quizQuestions from store
   @Select(QuizState.quizQuestions) quizQuestions$!: Observable<IQuestion[]>;
 
-  constructor(private store: Store, private actions$: Actions) {}
+  constructor(
+    private store: Store,
+    private actions$: Actions,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     // Get all quiz questions from store
@@ -30,5 +35,14 @@ export class QuizHomeComponent implements OnInit {
         this.isLoading = false;
       }, 1000);
     });
+  }
+
+  /**
+   * Go to questions router handler for button
+   *
+   * @memberof QuizHomeComponent
+   */
+  goToQuestions(): void {
+    this.router.navigate(['/quiz', 'questions']);
   }
 }
