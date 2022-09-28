@@ -10,7 +10,7 @@ export class QzButtonComponent {
 
   @HostBinding('class')
   get classes(): string {
-    return `px-5 py-2 rounded cursor-pointer disabled:opacity-40 disabled:bg-gray-400 disabled:text-gray-900 disabled:cursor-not-allowed ${this.generateBackgroundColor(
+    return `px-5 py-2 rounded cursor-pointer disabled:opacity-40 disabled:bg-gray-400 disabled:text-gray-900 disabled:cursor-not-allowed select-none ${this.generateBackgroundColor(
       this.btnType
     )}`;
   }
@@ -26,7 +26,7 @@ export class QzButtonComponent {
    */
   generateBackgroundColor(btnType: string): string {
     const bgColors: { [key: string]: string } = {
-      primary: 'bg-qz-blue-500 text-white hover:bg-qz-blue-400',
+      primary: 'bg-qz-acent-500 text-white hover:bg-qz-acent-600',
       secondary: 'bg-slate-300 text-slate-800 hover:bg-slate-200',
     };
     return bgColors[btnType];

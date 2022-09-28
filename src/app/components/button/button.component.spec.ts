@@ -24,7 +24,7 @@ describe('ButtonComponent', () => {
 
   describe('classes()', () => {
     const classBaseButtonBase =
-      'px-5 py-2 rounded cursor-pointer disabled:opacity-40 disabled:bg-gray-400 disabled:text-gray-900 disabled:cursor-not-allowed';
+      'px-5 py-2 rounded cursor-pointer disabled:opacity-40 disabled:bg-gray-400 disabled:text-gray-900 disabled:cursor-not-allowed select-none';
 
     it('should get class of primary', () => {
       component.btnType = 'primary';
