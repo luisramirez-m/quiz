@@ -3,15 +3,17 @@
     <div
       class="question-header px-6 py-4 flex items-center flex justify-between"
     >
-      <qz-question-counter
-        [currentQuestion]="currentQuestion + 1"
-        [totalQuestions]="quizQuestions.length"
-      ></qz-question-counter>
-      <qz-question-timer
-        [isMinutesFormat]="true"
-        [limitSeconds]="120"
-        (emitEndTimer)="onSaveQuestion()"
-      ></qz-question-timer>
+      <ng-container *ngIf="!showResult">
+        <qz-question-counter
+          [currentQuestion]="currentQuestion + 1"
+          [totalQuestions]="quizQuestions.length"
+        ></qz-question-counter>
+        <qz-question-timer
+          [isMinutesFormat]="true"
+          [limitSeconds]="120"
+          (emitEndTimer)="onSaveQuestion()"
+        ></qz-question-timer>
+      </ng-container>
     </div>
   </ng-container>
 
