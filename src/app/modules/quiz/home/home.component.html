@@ -1,0 +1,36 @@
+<div>
+  <div class="h-mid-screen flex justify-center items-center home-logo">
+    <div class="">
+      <img src="/assets/images/angular-logo.png" alt="image" />
+    </div>
+  </div>
+  <div class="relative flex items-center justify-center">
+    <div
+      class="md:w-1/2 w-4/5 bg-white rounded-lg py-10 drop-shadow-2xl absolute -top-22 flex justify-center z-10"
+    >
+      <div class="text-center">
+        <h4 *ngIf="!isLoading" class="text-sm font-semibold">5 questions</h4>
+        <h2 class="text-3xl font-semibold my-4">Mon test technique</h2>
+        <button
+          qz-button
+          btnType="primary"
+          [disabled]="isLoading"
+          (click)="goToQuestions()"
+        >
+          Démarrer
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="h-mid-screen flex items-end justify-center relative">
+    <div *ngIf="isLoading" class="absolute top-40">
+      <qz-spinner></qz-spinner>
+    </div>
+    <ng-container *ngIf="quizQuestions$ | async as quizQuestions">
+      <qz-best-score
+        [bestScore]="2"
+        [totalQuestions]="quizQuestions.length"
+      ></qz-best-score>
+    </ng-container>
+  </div>
+</div>
