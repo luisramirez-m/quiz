@@ -33,11 +33,8 @@ export class QzQuestionTimerComponent implements OnInit {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
-      }
-
-      if (this.timeLeft === 0) {
+      } else {
         this.emitEndTimer.emit(true);
-        clearInterval(this.interval);
       }
     }, 1000);
   }
@@ -73,6 +70,17 @@ export class QzQuestionTimerComponent implements OnInit {
    * @memberof QzQuestionTimer
    */
   restarTimer(): void {
-    this.timeLeft = this.limitSeconds;
+    clearInterval(this.interval);
+    this.generateTimer();
+  }
+
+  /**
+   * Stop timer
+   *
+   * @memberof QzQuestionTimerComponent
+   */
+  stopTimer(): void {
+    clearInterval(this.interval);
+    this.timeLeft = 0;
   }
 }
