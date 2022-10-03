@@ -101,14 +101,21 @@ export class QuizQuestionComponent implements OnInit, OnDestroy {
     // Check if next question is last
     if (this.currentQuestion + 1 < this.maxQuestions) {
       this.currentQuestion++;
-
-      // Restar timer and generate timer again -> from child component
-      this.qzQuestionTimerComponent.restarTimer();
     } else {
       // Check if is finished quiz and show result and stop timer
       this.showResult = true;
       this.qzQuestionTimerComponent.stopTimer();
     }
+  }
+
+  /**
+   * Function for end timer on EventEmitter from QzQuestionTimerComponent and show the result
+   *
+   * @memberof QuizQuestionComponent
+   */
+  onEndTimer(): void {
+    this.showResult = true;
+    this.qzQuestionTimerComponent.stopTimer();
   }
 
   /**
